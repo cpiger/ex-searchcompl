@@ -104,7 +104,7 @@ endfunction
 " Key mappings
 "/////////////////////////////////////////////////////////////////////////////
 
-noremap <silent> <Plug>StartSearch :call <SID>search_compl_start()<CR>/
+noremap <Plug>StartSearch :call <SID>search_compl_start()<CR>/
 nmap / <Plug>StartSearch
 
 " vim:ts=2:sw=2:sts=2
