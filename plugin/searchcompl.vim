@@ -23,6 +23,7 @@ let g:loaded_searchcompl = 1
 " variables
 let s:usr_input = ''
 let s:init_search_input = 1
+let s:result = ''
 
 " ------------------------------------------------------------------ 
 " Desc: Set mappings for search complete
@@ -40,28 +41,28 @@ endfunction
 " ------------------------------------------------------------------ 
 
 function s:search_compl()
-  let jump_to_next = 1
+  let jump = 1
   if s:init_search_input == 1 
     let s:usr_input = getcmdline()
     let s:init_search_input = 0
-    let jump_to_next = 0
+    let jump = 0
   endif
 
-  let cur_cmdline = getcmdline()
-  let match_result = s:get_next_match_result(jump_to_next) 
-  let cmdline = substitute(cur_cmdline, ".", "\<c-h>", "g") . match_result 
-  return cmdline
+  let cmdline = getcmdline()
+  let result = s:get_next_match_result(jump) 
+  let s:result = substitute(cmdline, ".", "\<c-h>", "g") . result 
+  return s:result
 endfunction
 
 " ------------------------------------------------------------------ 
 " Desc: 
 " ------------------------------------------------------------------ 
 
-function s:get_next_match_result( jump_to_next )
+function s:get_next_match_result( jump )
   let input_strlen = strlen(s:usr_input) 
 
   " first time search needn't jump
-  if a:jump_to_next 
+  if a:jump 
     silent call search ( s:usr_input, 'cwe' )
     let search_end_col = col( "." )
     let search_start_col = search_end_col - input_strlen + 1
@@ -79,7 +80,9 @@ function s:get_next_match_result( jump_to_next )
   let cur_word = expand('<cword>')
   let word_start_col = col( "." )
 
-  if a:jump_to_next " cause the / search mechanism don't allow cursor jump (though it jumped.), so for next search result, it will get the whole word 
+  " cause the / search mechanism don't allow cursor jump (though it jumped.), 
+  " so for next search result, it will get the whole word 
+  if a:jump
     return '\<'.cur_word.'\>'
   endif
 
