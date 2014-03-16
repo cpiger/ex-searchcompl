@@ -31,7 +31,8 @@ let s:result = ''
 
 function s:search_compl_start()
   let s:init_search_input = 1
-  cnoremap <Tab> <C-R>=<SID>search_compl()<CR>
+  cnoremap <S-Tab> <C-R>=<SID>search_compl(0)<CR>
+  cnoremap <Tab> <C-R>=<SID>search_compl(1)<CR>
   cnoremap <silent> <CR> <CR>:call <SID>search_compl_stop()<CR>
   cnoremap <silent> <Esc> <C-C>:call <SID>search_compl_stop()<CR>
 endfunction
@@ -40,7 +41,7 @@ endfunction
 " Desc: Tab completion in / search
 " ------------------------------------------------------------------ 
 
-function s:search_compl()
+function s:search_compl(forward)
   let jump = 1
   if s:init_search_input == 1 
     let s:usr_input = getcmdline()
@@ -49,7 +50,7 @@ function s:search_compl()
   endif
 
   let cmdline = getcmdline()
-  let result = s:get_next_match_result(jump) 
+  let result = s:get_next_match_result(jump,a:forward) 
   let s:result = substitute(cmdline, ".", "\<c-h>", "g") . result 
   return s:result
 endfunction
@@ -58,37 +59,31 @@ endfunction
 " Desc: 
 " ------------------------------------------------------------------ 
 
-function s:get_next_match_result( jump )
-  let input_strlen = strlen(s:usr_input) 
-
+function s:get_next_match_result( jump, forward )
   " first time search needn't jump
   if a:jump 
-    silent call search ( s:usr_input, 'cwe' )
-    let search_end_col = col( "." )
-    let search_start_col = search_end_col - input_strlen + 1
-    " KEEPME { 
-    " silent call search ( s:usr_input, 'w' )
-    " let search_start_col = col( "." )
-    " let search_end_col = search_start_col + input_strlen
-    " } KEEPME end 
-  else " first time search
-    let search_end_col = col( "." )
-    let search_start_col = search_end_col - input_strlen
+    if a:forward == 1
+      silent call search ( s:usr_input, 'cwe' )
+    else
+      silent call search ( s:usr_input, 'bwe' )
+    end
+
+    " cause the / search mechanism don't allow cursor jump (though it jumped.), 
+    " so for next search result, it will get the whole word 
+    let cur_word = expand('<cword>')
+    return '\<'.cur_word.'\>'
   endif
+
+  " first time search
+  let search_end_col = col( "." )
+  let search_start_col = search_end_col - strlen(s:usr_input)
 
   silent exec "normal b"
   let cur_word = expand('<cword>')
   let word_start_col = col( "." )
 
-  " cause the / search mechanism don't allow cursor jump (though it jumped.), 
-  " so for next search result, it will get the whole word 
-  if a:jump
-    return '\<'.cur_word.'\>'
-  endif
-
   " for first time search result, you can get partial word.
-  let result_word = strpart( cur_word, search_start_col-word_start_col )
-  return result_word 
+  return strpart( cur_word, search_start_col-word_start_col )
 endfunction
 
 
