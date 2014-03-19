@@ -1,9 +1,42 @@
-## Intro
-==============
+# Intro
 
 Complete vim searches /,? by `<TAB>`
 
-## Usage
-==============
+* Highlight words quickly by different label color.
+* Easily replace highlight words.  
 
-When using / or ? search text on vim, you can type part of the words, and press `<TAB>`, ex_searchcompl will complete the search text under the cursor.
+## Requirements
+
+- Vim 6.0 or higher.
+
+## Installation
+
+This plugin follows the standard runtime path structure, and as such it can 
+be installed with a variety of plugin managers:
+    
+To install using [Vundle](https://github.com/gmarik/vundle):
+
+    # add this line to your .vimrc file
+    Bundle 'exvim/ex_searchcompl'
+
+To install using [Pathogen](https://github.com/tpope/vim-pathogen):
+
+    cd ~/.vim/bundle
+    git clone https://github.com/exvim/ex_searchcompl
+
+To install using [NeoBundle](https://github.com/Shougo/neobundle.vim):
+
+    # add this line to your .vimrc file
+    NeoBundle 'exvim/ex_searchcompl'
+
+[Download zip file](https://github.com/exvim/ex_searchcompl/archive/master.zip):
+
+    cd ~/.vim
+    unzip ex_searchcompl-master.zip
+    copy all of the files into your ~/.vim directory
+
+
+## Usage
+
+When using / or ? search text on vim, you can type part of the words, and press `<TAB>`, 
+ex_searchcompl will complete the search text under the cursor.
