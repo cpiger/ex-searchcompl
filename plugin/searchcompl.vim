@@ -1,12 +1,7 @@
-" ======================================================================================
-" File         : searchcompl.vim
-" Author       : Wu Jie 
-" Last Change  : 03/16/2014 | 23:05:15 PM | Sunday,March
-" Description  : This script catches the <Tab> character when using the '/' search 
-"                command.  Pressing Tab will expand the current partial word to the 
-"                next matching word starting with the partial word.
-"                If you want to match a tab, use the '\t' pattern.
-" ======================================================================================
+" This script catches the <Tab> character when using the '/' search 
+" command.  Pressing Tab will expand the current partial word to the 
+" next matching word starting with the partial word.
+" If you want to match a tab, use the '\t' pattern.
 
 " disable the searchcompl in xterm in linux/unix.
 " because of the <ESC> mapping problem in xterm
@@ -20,15 +15,14 @@ if exists('g:loaded_searchcompl') || &cp
 endif
 let g:loaded_searchcompl = 1
 
-" variables
+" variables {{{1
 let s:usr_input = ''
 let s:init_search_input = 1
 let s:result = ''
-
-" ------------------------------------------------------------------ 
+"}}}
+" functions {{{1
+" s:search_compl_start {{{2
 " Desc: Set mappings for search complete
-" ------------------------------------------------------------------ 
-
 function s:search_compl_start()
   let s:init_search_input = 1
   cnoremap <S-Tab> <C-R>=<SID>search_compl(0)<CR>
@@ -37,10 +31,8 @@ function s:search_compl_start()
   cnoremap <silent> <Esc> <C-C>:call <SID>search_compl_stop()<CR>
 endfunction
 
-" ------------------------------------------------------------------ 
+" s:search_compl {{{2
 " Desc: Tab completion in / search
-" ------------------------------------------------------------------ 
-
 function s:search_compl(forward)
   let jump = 1
   if s:init_search_input == 1 
@@ -55,10 +47,7 @@ function s:search_compl(forward)
   return s:result
 endfunction
 
-" ------------------------------------------------------------------ 
-" Desc: 
-" ------------------------------------------------------------------ 
-
+" s:get_next_match_result {{{2
 function s:get_next_match_result( jump, forward )
   " first time search needn't jump
   if a:jump 
@@ -86,23 +75,18 @@ function s:get_next_match_result( jump, forward )
   return strpart( cur_word, search_start_col-word_start_col )
 endfunction
 
-
-" ------------------------------------------------------------------ 
+" s:search_compl_stop {{{2
 " Desc: Remove search complete mappings
-" ------------------------------------------------------------------ 
-
 function s:search_compl_stop()
   cunmap <Tab>
   cunmap <CR>
   cunmap <Esc>
   let s:init_search_input = 0
 endfunction
-
-"/////////////////////////////////////////////////////////////////////////////
-" Key mappings
-"/////////////////////////////////////////////////////////////////////////////
-
+"}}}1
+" key mappings {{{
 noremap <Plug>StartSearch :call <SID>search_compl_start()<CR>/
 nmap / <Plug>StartSearch
+"}}}
 
-" vim:ts=2:sw=2:sts=2
+" vim:ts=2:sw=2:sts=2 et fdm=marker:
