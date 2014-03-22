@@ -17,26 +17,25 @@ be installed with a variety of plugin managers:
 To install using [Vundle](https://github.com/gmarik/vundle):
 
     # add this line to your .vimrc file
-    Bundle 'exvim/ex_searchcompl'
+    Bundle 'exvim/ex-searchcompl'
 
 To install using [Pathogen](https://github.com/tpope/vim-pathogen):
 
     cd ~/.vim/bundle
-    git clone https://github.com/exvim/ex_searchcompl
+    git clone https://github.com/exvim/ex-searchcompl
 
 To install using [NeoBundle](https://github.com/Shougo/neobundle.vim):
 
     # add this line to your .vimrc file
-    NeoBundle 'exvim/ex_searchcompl'
+    NeoBundle 'exvim/ex-searchcompl'
 
-[Download zip file](https://github.com/exvim/ex_searchcompl/archive/master.zip):
+[Download zip file](https://github.com/exvim/ex-searchcompl/archive/master.zip):
 
     cd ~/.vim
-    unzip ex_searchcompl-master.zip
+    unzip ex-searchcompl-master.zip
     copy all of the files into your ~/.vim directory
-
 
 ## Usage
 
 When using / or ? search text on vim, you can type part of the words, and press `<TAB>`, 
-ex_searchcompl will complete the search text under the cursor.
+ex-searchcompl will complete the search text under the cursor.
